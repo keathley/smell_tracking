@@ -4,15 +4,18 @@ class Grid
   SIZE = 32
 
   attr_reader :p
+  attr_writer :rock, :p
 
-  def initialize(x_index, y_index)
+  def initialize(x_index, y_index, rock=false)
     @x_index = x_index
     @y_index = y_index
     @color = Gosu::Color::WHITE
-    @p = 1
+    @rock = rock
+    @p = @rock ? 0 : 1
   end
 
   def update(player, cells)
+    return if @rock
     if contains_player?(player)
       @p = player.p
     else
@@ -27,6 +30,7 @@ class Grid
   def y2; y + SIZE/2; end
 
   def color
+    return Gosu::Color::BLUE if @rock
     p = p_to_color_range(@p)
     Gosu::Color.new(255, p, p, p)
   end

@@ -7,6 +7,7 @@ class Mob
   def initialize(x, y)
     @x = x + SIZE/2
     @y = y + SIZE/2
+    @p = 0
   end
 
   def x1; @x - SIZE/2; end
@@ -23,6 +24,8 @@ class Mob
       a.p <=> b.p
     }
     move_towards_cell(cell)
+    # This is very bad
+    cell.p = @p
   end
 
   private

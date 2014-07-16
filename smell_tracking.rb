@@ -18,7 +18,7 @@ class SmellTracking < Gosu::Window
   def setup
     @player = Player.new
     @cells = build_cells
-    @mob = Mob.new(700, 500)
+    @mobs  = [Mob.new(700, 500), Mob.new(500, 500), Mob.new(200, 300)]
 
     self
   end
@@ -26,13 +26,15 @@ class SmellTracking < Gosu::Window
   def draw
     @cells.flatten.each { |cell| cell.draw(self) }
     @player.draw(self)
-    @mob.draw(self)
+    # @mob.draw(self)
+    @mobs.each { |mob| mob.draw(self) }
   end
 
   def update
     diffuse_cells(@cells)
     @player.update(self)
-    @mob.update(@cells)
+    # @mob.update(@cells)
+    @mobs.each { |mob| mob.update(@cells) }
   end
 
   def button_down(id)
@@ -43,7 +45,13 @@ class SmellTracking < Gosu::Window
     columns = width / Grid::SIZE
     rows = height / Grid::SIZE
 
-    Array.new(rows) { |y| Array.new(columns) { |x| Grid.new(x, y) } }
+    cells = Array.new(rows) { |y|
+      Array.new(columns) { |x|
+        Grid.new(x, y)
+      }
+    }
+    cells.flatten.sample(20).each { |cell| cell.rock = true }
+    cells
   end
 
   def diffuse_cells(cells)
