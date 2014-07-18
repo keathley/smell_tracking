@@ -17,9 +17,9 @@ class Floor
   end
 
   def largest_positive_surrounding_cell(x, y)
-    neighbor_cells(pos_index(x), pos_index(y)).select { |cell|
-      cell.p > 0
-    }.max { |a, b| a.p <=> b.p }
+    cells = neighbor_cells(pos_index(x), pos_index(y))
+    cells.select! { |cell| cell.p > 0 }
+    cells.max { |a, b| a.p <=> b.p }
   end
 
   private
