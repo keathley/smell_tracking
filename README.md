@@ -4,19 +4,12 @@ Tracking player movement by their 'smell'
 
 ## About
 
-The goal is to create AI tracking using diffusion.  The board is divided up
-into a grid.  The player emminates a "smell", referred to as p throughout the board.  This smell
-is then diffused throughout the rest of the "floor".  The agents then analyzes
-each of the adjacent spaces and can make movement decisions based on those
-values.  For instance, if we wanted to create an "aggresive" agent that always
-moved towards the player, we would simply have that Agent move towards the
-largest, positive adjacent space.
+The goal is to create AI tracking using diffusion.  The board is divided up into a grid.  The player and all other entities - agents and rocks - are placed around the grid.  Each entity has a "smell" which we refer to as p.  The player has a very high smell, immovable objects have a smell of 0 and enemy agents have a low or 0 smell.  On each update we diffuse these smells throughout the floor.  Once this is done we can then provide the diffusion to the enemy agents and allow them to make decisions on based on the smell.  Assuming that the goal is to find the player as quickly as possible we simply have the enemy move towards the largest non-negative, adjacent space.
 
 The benefit of using this diffusion technique is that it makes avoiding
-obstacles extremely simple.  We can simply treat obstacles as a 0 space.  Then
-we have the agent only move into non-zero spaces.  0 could be any value; it's
-really just a sentinal.  If we wanted we could substitute 0 for -1 and only
-allow agents to move into non-negative spaces.
+obstacles trivial.  An agent will never move into a 0 or negative space which means that it will avoid both obstacles and other agents.
+
+Using this diffusion technique also gives us some simple "collaboration" between the agents.  Since the eminate a negative smell, each will seek to avoid the other.  This means that we get a close approximation of group like behaviour, essentially for free.
 
 ## Installing
 
