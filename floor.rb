@@ -9,11 +9,9 @@ class Floor
     @cells.flatten.each { |cell| cell.draw(window) }
   end
 
-  def update(player, mobs, rocks)
+  def update(*entities)
     diffuse_cells!
-    update_cells(player)
-    mobs.each { |mob| update_cells(mob) }
-    rocks.each { |rock| update_cells(rock) }
+    entities.flatten.each { |obj| update_cells(obj) }
   end
 
   def largest_positive_surrounding_cell(x, y)
@@ -32,10 +30,6 @@ class Floor
     }
   end
 
-  def update_cells(obj)
-    cell_at_position(obj.x, obj.y).update(obj)
-  end
-
   def diffuse_cells!
     @cells.each_with_index do |y, yi|
       y.each_with_index do |cell, xi|
@@ -46,6 +40,10 @@ class Floor
 
   def new_p(x, y)
     neighbor_cells(x, y).inject(0) { |sum, c| sum + c.p } * 0.25
+  end
+
+  def update_cells(obj)
+    cell_at_position(obj.x, obj.y).update(obj)
   end
 
   def neighbor_cells(x, y)
