@@ -9,7 +9,7 @@ The goal is to create AI tracking using diffusion.  The board is divided up into
 The benefit of using this diffusion technique is that it makes avoiding
 obstacles trivial.  An agent will never move into a 0 or negative space which means that it will avoid both obstacles and other agents.
 
-Using this diffusion technique also gives us some simple "collaboration" between the agents.  Since the eminate a negative smell, each will seek to avoid the other.  This means that we get a close approximation of group like behaviour, essentially for free.
+Using this diffusion technique also gives us some simple "collaboration" between the agents.  Since agents eminate a negative smell, each will seek to avoid the other.  This means that we get a close approximation of group like behaviour, essentially for free.
 
 ## Installing
 
