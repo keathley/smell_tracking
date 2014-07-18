@@ -4,10 +4,12 @@ class Mob
   SIZE = 32
   SPEED = 3
 
-  def initialize(x, y)
+  attr_reader :x, :y, :p
+
+  def initialize(x, y, p=-10)
     @x = x + SIZE/2
     @y = y + SIZE/2
-    @p = 0
+    @p = p
   end
 
   def x1; @x - SIZE/2; end
@@ -19,22 +21,12 @@ class Mob
     Gosu::Color::RED
   end
 
-  def update(cells)
-    cell = find_cell_at_position(cells).neighbors(cells).max { |a, b|
-      a.p <=> b.p
-    }
-    move_towards_cell(cell)
-    # This is very bad
-    cell.p = @p
+  def update(floor)
+    cell = floor.largest_positive_surrounding_cell(@x, @y)
+    move_towards_cell(cell) if cell
   end
 
   private
-
-  def find_cell_at_position(cells)
-    column = @x / Grid::SIZE
-    row = @y / Grid::SIZE
-    cells[row][column]
-  end
 
   def move_towards_cell(cell)
     up!     if cell.y < @y
@@ -59,6 +51,11 @@ class Mob
     @x += dx
   end
 
-  def dx; SPEED; end
-  def dy; SPEED; end
+  def dx
+    SPEED
+  end
+
+  def dy
+    SPEED
+  end
 end

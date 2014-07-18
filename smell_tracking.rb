@@ -3,8 +3,10 @@ require 'gosu'
 require './drawable'
 
 require './player'
-require './grid'
 require './mob'
+require './rock'
+require './floor'
+require './cell'
 
 class SmellTracking < Gosu::Window
   def self.play!
@@ -16,46 +18,35 @@ class SmellTracking < Gosu::Window
   end
 
   def setup
+    @floor = Floor.new(self.width, self.height)
+    @rocks = build_rocks(@floor)
     @player = Player.new
-    @cells = build_cells
     @mobs  = [Mob.new(700, 500), Mob.new(500, 500), Mob.new(200, 300)]
 
     self
   end
 
   def draw
-    @cells.flatten.each { |cell| cell.draw(self) }
+    @floor.draw(self)
+    @rocks.each { |rock| rock.draw(self) }
     @player.draw(self)
-    # @mob.draw(self)
     @mobs.each { |mob| mob.draw(self) }
   end
 
   def update
-    diffuse_cells(@cells)
+    @floor.update(@player, @mobs, @rocks)
     @player.update(self)
-    # @mob.update(@cells)
-    @mobs.each { |mob| mob.update(@cells) }
+    @mobs.each { |mob| mob.update(@floor) }
   end
 
   def button_down(id)
     close if id == Gosu::KbEscape
   end
 
-  def build_cells
-    columns = width / Grid::SIZE
-    rows = height / Grid::SIZE
+  private
 
-    cells = Array.new(rows) { |y|
-      Array.new(columns) { |x|
-        Grid.new(x, y)
-      }
-    }
-    cells.flatten.sample(20).each { |cell| cell.rock = true }
-    cells
-  end
-
-  def diffuse_cells(cells)
-    cells.flatten.each { |cell| cell.update(@player, @cells) }
+  def build_rocks(floor)
+    floor.cells.flatten.sample(20).map { |cell| Rock.new(cell.x, cell.y) }
   end
 end
 

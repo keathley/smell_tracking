@@ -5,10 +5,10 @@ class Player
   SPEED = 6
   attr_reader :x, :y, :p
 
-  def initialize
-    @x = 30
-    @y = 30
-    @p = 1000
+  def initialize(x=30, y=30, p=9000)
+    @x = x
+    @y = y
+    @p = p
   end
 
   def x1; @x - SIZE/2; end
@@ -35,6 +35,7 @@ class Player
   def update(window)
     handle_input!(window)
     handle_wall_collisions!(window)
+    handle_rock_collisions!(window)
   end
 
   private
@@ -53,8 +54,29 @@ class Player
     @x = window.width-SIZE/2 if x2 > window.width
   end
 
-  def dx; SPEED; end
-  def dy; SPEED; end
+  def handle_rock_collisions!(window)
+    # window.rocks.each do |rock|
+    #   if intersect(rock)
+
+    #   end
+    # end
+    nil
+  end
+
+  # def intersect?(obj)
+  #   x1 < obj.x2 &&
+  #   x2 > obj.x1 &&
+  #   y1 < obj.y2 &&
+  #   y2 > obj.y1
+  # end
+
+  def dx
+    SPEED
+  end
+
+  def dy
+    SPEED
+  end
 
   def color
     Gosu::Color::GREEN
