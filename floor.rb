@@ -17,7 +17,7 @@ class Floor
   end
 
   def largest_positive_surrounding_cell(x, y)
-    cells = neighbor_cells(pos_index(x), pos_index(y))
+    cells = neighbor_cells(pos_to_index(x), pos_to_index(y))
     cells.select! { |cell| cell.p > 0 }
     cells.max { |a, b| a.p <=> b.p }
   end
@@ -25,9 +25,11 @@ class Floor
   private
 
   def build_cells(width, height)
-    columns = width / Cell::SIZE
-    rows = height / Cell::SIZE
-    cells = Array.new(rows) { |y| Array.new(columns) { |x| Cell.new(x, y, 1) } }
+    Array.new(height / Cell::SIZE) { |y|
+      Array.new(width / Cell::SIZE) { |x|
+        Cell.new(index_to_pos(x), index_to_pos(y))
+      }
+    }
   end
 
   def update_cells(obj)
@@ -72,10 +74,14 @@ class Floor
   end
 
   def cell_at_position(x, y)
-    @cells[pos_index(y)][pos_index(x)]
+    @cells[pos_to_index(y)][pos_to_index(x)]
   end
 
-  def pos_index(pos)
+  def pos_to_index(pos)
     pos/Cell::SIZE
+  end
+
+  def index_to_pos(index)
+    index * Cell::SIZE + (Cell::SIZE/2)
   end
 end

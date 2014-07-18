@@ -3,24 +3,16 @@ class Cell
 
   SIZE = 32
 
-  attr_accessor :p
+  attr_accessor :x, :y, :p
 
-  def initialize(x_index, y_index, p)
-    @x_index = x_index
-    @y_index = y_index
+  def initialize(x, y, p=1)
+    @x = x
+    @y = y
     @p = p
   end
 
   def update(obj)
     @p = obj.p
-  end
-
-  def x
-    @x_index * SIZE + (SIZE/2)
-  end
-
-  def y
-    @y_index * SIZE + (SIZE/2)
   end
 
   private
