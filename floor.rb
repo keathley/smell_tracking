@@ -39,7 +39,7 @@ class Floor
   def diffuse_cells!
     @cells.each_with_index do |y, yi|
       y.each_with_index do |cell, xi|
-        cell.p = new_p(xi, yi)
+        cell.update(new_p(xi, yi))
       end
     end
   end

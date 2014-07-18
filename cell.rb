@@ -3,7 +3,7 @@ class Cell
 
   SIZE = 32
 
-  attr_accessor :x, :y, :p
+  attr_reader :x, :y, :p
 
   def initialize(x, y, p=1)
     @x = x
@@ -11,11 +11,19 @@ class Cell
     @p = p
   end
 
-  def update(obj)
-    @p = obj.p
+  def update(obj_or_p)
+    @p = p_for(obj_or_p)
   end
 
   private
+
+  def p_for(obj_or_p)
+    case obj_or_p
+    when Numeric then obj_or_p
+    else
+      obj_or_p.p
+    end
+  end
 
   def p_to_color_range(p)
     (((p - 1) * (255 - 0)) / (1000 - 1)) + 0
