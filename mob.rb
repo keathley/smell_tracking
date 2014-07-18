@@ -12,15 +12,6 @@ class Mob
     @p = p
   end
 
-  def x1; @x - SIZE/2; end
-  def x2; @x + SIZE/2; end
-  def y1; @y - SIZE/2; end
-  def y2; @y + SIZE/2; end
-
-  def color
-    Gosu::Color::RED
-  end
-
   def update(floor)
     cell = floor.largest_positive_surrounding_cell(@x, @y)
     move_towards_cell(cell) if cell
@@ -57,5 +48,14 @@ class Mob
 
   def dy
     SPEED
+  end
+
+  def x1; @x - SIZE/2; end
+  def x2; @x + SIZE/2; end
+  def y1; @y - SIZE/2; end
+  def y2; @y + SIZE/2; end
+
+  def color
+    Gosu::Color::RED
   end
 end
